@@ -1,5 +1,110 @@
 package com.alexhamilton.udemy.ppmtoolbackend.domain;
 
+import java.time.LocalDate;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
+
+@Entity
 public class Project {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+	private String projectName;
+	
+	private String projectIdentifier;
+	
+	private String description;
+	
+	private LocalDate startDate;
+	
+	private LocalDate endDate;
+	
+	private LocalDate createdAt;
+	
+	private LocalDate updatedAt;
+	
+	public Project() {
+	}
+	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getProjectName() {
+		return projectName;
+	}
+
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
+	}
+
+	public String getProjectIdentifier() {
+		return projectIdentifier;
+	}
+
+	public void setProjectIdentifier(String projectIdentifier) {
+		this.projectIdentifier = projectIdentifier;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public LocalDate getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(LocalDate startDate) {
+		this.startDate = startDate;
+	}
+
+	public LocalDate getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(LocalDate endDate) {
+		this.endDate = endDate;
+	}
+
+	public LocalDate getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(LocalDate createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public LocalDate getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(LocalDate updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	@PrePersist
+	protected void onCreate() {
+		this.createdAt = LocalDate.now();
+	}
+	
+	@PreUpdate
+	protected void onUpdate() {
+		this.updatedAt = LocalDate.now();
+	}
+	
 }
