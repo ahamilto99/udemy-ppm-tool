@@ -1,13 +1,19 @@
 package com.alexhamilton.udemy.ppmtoolbackend.domain;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 public class Project {
@@ -16,19 +22,28 @@ public class Project {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@NotBlank(message = "Project name is required")
 	private String projectName;
 	
+	@NotBlank(message = "Project identifier is required")
+	@Size(min = 4, max = 5, message = "Please use 4 to 5 characters")
+	@Column(unique = true, updatable = false)
 	private String projectIdentifier;
 	
+	@NotBlank(message = "Project description is required")
 	private String description;
 	
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private LocalDate startDate;
 	
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private LocalDate endDate;
 	
-	private LocalDate createdAt;
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSSSSS")
+	private LocalDateTime createdAt;
 	
-	private LocalDate updatedAt;
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSSSSS")
+	private LocalDateTime updatedAt;
 	
 	public Project() {
 	}
@@ -81,30 +96,30 @@ public class Project {
 		this.endDate = endDate;
 	}
 
-	public LocalDate getCreatedAt() {
+	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(LocalDate createdAt) {
+	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
 	}
 
-	public LocalDate getUpdatedAt() {
+	public LocalDateTime getUpdatedAt() {
 		return updatedAt;
 	}
 
-	public void setUpdatedAt(LocalDate updatedAt) {
+	public void setUpdatedAt(LocalDateTime updatedAt) {
 		this.updatedAt = updatedAt;
 	}
 
 	@PrePersist
 	protected void onCreate() {
-		this.createdAt = LocalDate.now();
+		this.createdAt = LocalDateTime.now();
 	}
 	
 	@PreUpdate
 	protected void onUpdate() {
-		this.updatedAt = LocalDate.now();
+		this.updatedAt = LocalDateTime.now();
 	}
 	
 }
