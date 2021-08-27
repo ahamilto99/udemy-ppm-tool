@@ -18,7 +18,7 @@ public class ProjectService {
 	public Project saveOrUpdateProject(Project project) {
 		try {
 			project.setProjectIdentifier(project.getProjectIdentifier().toUpperCase());
-			
+
 			return projectRepo.save(project);
 		} catch (Exception e) {
 			throw new DuplicateProjectIdentifierException(
@@ -26,16 +26,27 @@ public class ProjectService {
 		}
 
 	}
-	
+
 	public Project findProjectByProjectIdentifier(String projectIdentifier) {
 		String upperProjectIdentifier = projectIdentifier.toUpperCase();
-		
-		return projectRepo.findByProjectIdentifier(upperProjectIdentifier).orElseThrow(() -> new 
-				ResponseStatusException(HttpStatus.NOT_FOUND, "Project Identifier '" + upperProjectIdentifier + "' does not exist"));
+
+		return projectRepo.findByProjectIdentifier(upperProjectIdentifier)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+						"Project Identifier '" + upperProjectIdentifier + "' does not exist"));
 	}
-	
+
 	public Iterable<Project> findAllProjects() {
 		return projectRepo.findAll();
 	}
-	
+
+	public void deleteProjectByProjectIdentifier(String projectIdentifier) {
+		String upperProjectIdentifier = projectIdentifier.toUpperCase();
+		
+		Project project = projectRepo.findByProjectIdentifier(upperProjectIdentifier)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+						"Cannot delete Project with Project Identifier '" + upperProjectIdentifier
+								+ "' because Project does not exist"));
+		projectRepo.delete(project);
+	}
+
 }
