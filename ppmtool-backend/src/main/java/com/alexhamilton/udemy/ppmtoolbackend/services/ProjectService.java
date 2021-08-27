@@ -34,4 +34,8 @@ public class ProjectService {
 				ResponseStatusException(HttpStatus.NOT_FOUND, "Project Identifier '" + upperProjectIdentifier + "' does not exist"));
 	}
 	
+	public Iterable<Project> findAllProjects() {
+		return projectRepo.findAll();
+	}
+	
 }
