@@ -10,3 +10,5 @@ export const CreateProjectButton = () => {
     </React.Fragment>
   );
 };
+
+export default CreateProjectButton;
