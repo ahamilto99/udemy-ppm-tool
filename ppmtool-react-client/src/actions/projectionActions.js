@@ -24,10 +24,16 @@ export const getProjects = () => async (dispatch) => {
   });
 };
 
-export const getProject = (id, history) => async (dispatch) => {
-  const result = await axios.get(`http://localhost:8080/api/project/${id}`);
-  dispatch({
-    type: GET_PROJECT,
-    payload: result.data
-  });
+export const getProject = (identifier, history) => async (dispatch) => {
+  try {
+    const result = await axios.get(
+      `http://localhost:8080/api/project/${identifier}`
+    );
+    dispatch({
+      type: GET_PROJECT,
+      payload: result.data
+    });
+  } catch (e) {
+    history.push('/dashboard');
+  }
 };
