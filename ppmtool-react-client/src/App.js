@@ -16,7 +16,11 @@ function App() {
           <Header />
           <Route exact path='/dashboard' component={Dashboard} />
           <Route exact path='/addProject' component={AddProject} />
-          <Route exact paht='/updateProject/:id' component={UpdateProject} />
+          <Route
+            exact
+            path='/updateProject/:identifier'
+            component={UpdateProject}
+          />
         </div>
       </Router>
     </Provider>
