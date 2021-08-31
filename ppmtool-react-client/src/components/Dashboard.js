@@ -24,7 +24,10 @@ class Dashboard extends Component {
               <br />
               <hr />
               {projects.map((project) => (
-                <ProjectItem key={project.id} project={project} />
+                <ProjectItem
+                  key={project.projectIdentifier}
+                  project={project}
+                />
               ))}
             </div>
           </div>
