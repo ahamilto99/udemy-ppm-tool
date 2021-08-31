@@ -3,14 +3,19 @@ package com.alexhamilton.udemy.ppmtoolbackend.domain;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.validation.constraints.NotBlank;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class ProjectTask {
@@ -32,6 +37,11 @@ public class ProjectTask {
 	private Integer priority;
 
 	private LocalDate dueDate;
+
+	@JsonIgnore
+	@ManyToOne(cascade = CascadeType.REFRESH)
+	@JoinColumn(name = "backlog_id", updatable = false, nullable = false)
+	private Backlog backlog;
 
 	@Column(updatable = false)
 	private String projectIdentifier;
