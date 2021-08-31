@@ -134,6 +134,7 @@ class UpdateProject extends Component {
                   ) : (
                     <br />
                   )}
+                  <br />
                 </div>
                 <h6>Start Date</h6>
                 <div className='form-group'>

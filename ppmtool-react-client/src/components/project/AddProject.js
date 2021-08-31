@@ -115,6 +115,7 @@ class AddProject extends Component {
                     ) : (
                       <br />
                     )}
+                    <br />
                   </div>
 
                   <h6>Start Date</h6>
