@@ -8,4 +8,6 @@ import com.alexhamilton.udemy.ppmtoolbackend.domain.Backlog;
 @Repository
 public interface BacklogRepository extends JpaRepository<Backlog, Long> {
 
+	Backlog findByProjectIdentifier(String projectIdentifier);
+
 }

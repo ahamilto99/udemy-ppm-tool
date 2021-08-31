@@ -5,8 +5,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.alexhamilton.udemy.ppmtoolbackend.domain.Backlog;
 import com.alexhamilton.udemy.ppmtoolbackend.domain.Project;
 import com.alexhamilton.udemy.ppmtoolbackend.exceptions.DuplicateProjectIdentifierException;
+import com.alexhamilton.udemy.ppmtoolbackend.repositories.BacklogRepository;
 import com.alexhamilton.udemy.ppmtoolbackend.repositories.ProjectRepository;
 
 @Service
@@ -15,14 +17,29 @@ public class ProjectService {
 	@Autowired
 	private ProjectRepository projectRepo;
 
+	@Autowired
+	private BacklogRepository backlogRepo;
+
 	public Project saveOrUpdateProject(Project project) {
+		String upperProjectIdentifier = project.getProjectIdentifier().toUpperCase();
+
 		try {
-			project.setProjectIdentifier(project.getProjectIdentifier().toUpperCase());
+			project.setProjectIdentifier(upperProjectIdentifier);
+
+			if (project.getId() == null) {
+				Backlog backlog = new Backlog();
+				project.setBacklog(backlog);
+				backlog.setProject(project);
+				backlog.setProjectIdentifier(upperProjectIdentifier);
+			} else {
+				// we're updating the project
+				project.setBacklog(backlogRepo.findByProjectIdentifier(upperProjectIdentifier));
+			}
 
 			return projectRepo.save(project);
 		} catch (Exception e) {
 			throw new DuplicateProjectIdentifierException(
-					"Project Identifier '" + project.getProjectIdentifier().toUpperCase() + "' already exists");
+					"Project Identifier '" + upperProjectIdentifier + "' already exists");
 		}
 
 	}
@@ -41,7 +58,7 @@ public class ProjectService {
 
 	public void deleteProjectByProjectIdentifier(String projectIdentifier) {
 		String upperProjectIdentifier = projectIdentifier.toUpperCase();
-		
+
 		Project project = projectRepo.findByProjectIdentifier(upperProjectIdentifier)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
 						"Cannot delete Project with Project Identifier '" + upperProjectIdentifier

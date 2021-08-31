@@ -1,6 +1,7 @@
 package com.alexhamilton.udemy.ppmtoolbackend.domain;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -35,21 +36,21 @@ public class ProjectTask {
 	@Column(updatable = false)
 	private String projectIdentifier;
 
-	private LocalDate createdAt;
+	private LocalDateTime createdAt;
 
-	private LocalDate updatedAt;
+	private LocalDateTime updatedAt;
 
 	public ProjectTask() {
 	}
 
 	@PrePersist
 	protected void onCreate() {
-		createdAt = LocalDate.now();
+		createdAt = LocalDateTime.now();
 	}
 
 	@PreUpdate
 	protected void onUpdate() {
-		updatedAt = LocalDate.now();
+		updatedAt = LocalDateTime.now();
 	}
 
 	public Long getId() {
@@ -108,19 +109,19 @@ public class ProjectTask {
 		this.dueDate = dueDate;
 	}
 
-	public LocalDate getCreatedAt() {
+	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(LocalDate createdAt) {
+	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
 	}
 
-	public LocalDate getUpdatedAt() {
+	public LocalDateTime getUpdatedAt() {
 		return updatedAt;
 	}
 
-	public void setUpdatedAt(LocalDate updatedAt) {
+	public void setUpdatedAt(LocalDateTime updatedAt) {
 		this.updatedAt = updatedAt;
 	}
 

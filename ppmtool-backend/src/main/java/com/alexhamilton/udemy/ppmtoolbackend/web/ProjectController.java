@@ -39,7 +39,7 @@ public class ProjectController {
 		}
 
 		Project newProject = projectService.saveOrUpdateProject(project);
-		return new ResponseEntity<Project>(newProject, HttpStatus.CREATED);
+		return new ResponseEntity<Project>(newProject, HttpStatus.OK);
 	}
 
 	@GetMapping("/{projectIdentifier}")
