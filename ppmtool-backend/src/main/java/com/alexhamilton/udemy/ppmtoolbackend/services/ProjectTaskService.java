@@ -25,6 +25,8 @@ public class ProjectTaskService {
 		Integer backlogSequence = backlog.getProjectTaskSequence();
 		++backlogSequence;
 
+		backlog.setProjectTaskSequence(backlogSequence);
+
 		projectTask.setProjectSequence(projectIdentifier + '-' + backlogSequence);
 		projectTask.setProjectIdentifier(projectIdentifier);
 
