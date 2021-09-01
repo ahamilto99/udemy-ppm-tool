@@ -143,6 +143,14 @@ public class ProjectTask {
 		this.projectIdentifier = projectIdentifier;
 	}
 
+	public Backlog getBacklog() {
+		return backlog;
+	}
+
+	public void setBacklog(Backlog backlog) {
+		this.backlog = backlog;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
