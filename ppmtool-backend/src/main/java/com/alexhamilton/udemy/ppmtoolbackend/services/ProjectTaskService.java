@@ -1,5 +1,7 @@
 package com.alexhamilton.udemy.ppmtoolbackend.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +41,10 @@ public class ProjectTaskService {
 		}
 
 		return projectTaskRepo.save(projectTask);
+	}
+
+	public List<ProjectTask> findBacklogById(String backlogId) {
+		return projectTaskRepo.findByProjectIdentifierOrderByPriority(backlogId);
 	}
 
 }

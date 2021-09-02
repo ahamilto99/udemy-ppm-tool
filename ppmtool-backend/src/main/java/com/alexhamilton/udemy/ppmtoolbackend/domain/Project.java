@@ -16,6 +16,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Project {
@@ -48,7 +49,7 @@ public class Project {
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSSSSS")
 	private LocalDateTime updatedAt;
 
-	// infinite JSON recursion only occurs on the child side
+	@JsonIgnore
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "project")
 	private Backlog backlog;
 
