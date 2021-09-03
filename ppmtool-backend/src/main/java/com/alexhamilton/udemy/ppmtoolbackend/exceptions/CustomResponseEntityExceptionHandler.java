@@ -1,6 +1,5 @@
 package com.alexhamilton.udemy.ppmtoolbackend.exceptions;
 
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -12,7 +11,7 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
 
 	@ExceptionHandler
 	public final ResponseEntity<Object> handleDuplicateProjectIdentifierException(
-			DuplicateProjectIdentifierException ex, HttpRequest request) {
+			DuplicateProjectIdentifierException ex) {
 		DuplicateProjectIdentifierExceptionResponse exceptionResponse = new DuplicateProjectIdentifierExceptionResponse(
 				ex.getMessage());
 
@@ -20,8 +19,8 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
 	}
 
 	@ExceptionHandler
-	public final ResponseEntity<Object> handleProjectNotFoundException(ProjectNotFoundException ex,
-			HttpRequest request) {
+	public final ResponseEntity<Object> handleProjectNotFoundException(ProjectNotFoundException ex) {
+
 		ProjectNotFoundExceptionResponse exceptionResponse = new ProjectNotFoundExceptionResponse(ex.getMessage());
 
 		return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);

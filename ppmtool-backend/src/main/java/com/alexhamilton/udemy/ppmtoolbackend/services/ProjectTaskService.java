@@ -27,13 +27,17 @@ public class ProjectTaskService {
 	public ProjectTask addProjectTask(String projectIdentifier, ProjectTask projectTask) {
 		// project != null => backlog exists
 		try {
+			System.out.println(1);
 			Backlog backlog = backlogRepo.findByProjectIdentifier(projectIdentifier);
 			projectTask.setBacklog(backlog);
+			System.out.println(2);
 
 			Integer backlogSequence = backlog.getProjectTaskSequence();
 			++backlogSequence;
+			System.out.println(3);
 
 			backlog.setProjectTaskSequence(backlogSequence);
+			System.out.println(4);
 
 			projectTask.setProjectSequence(projectIdentifier + '-' + backlogSequence);
 			projectTask.setProjectIdentifier(projectIdentifier);
@@ -57,6 +61,11 @@ public class ProjectTaskService {
 				() -> new ProjectNotFoundException("Project with Identifier '" + backlogId + "' not found"));
 
 		return projectTaskRepo.findByProjectIdentifierOrderByPriority(backlogId);
+	}
+
+	public ProjectTask findProjectTaskByProjectSequence(String backlogId, String sequence) {
+
+		return projectTaskRepo.findByProjectSequence(sequence);
 	}
 
 }
