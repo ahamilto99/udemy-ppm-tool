@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_ERRORS } from './types';
+import { GET_ERRORS, GET_BACKLOG } from './types';
 
 export const addProjectTask =
   (backlogId, projectTask, history) => async (dispatch) => {
@@ -17,3 +17,13 @@ export const addProjectTask =
       });
     }
   };
+
+export const getBacklog = (backlogId) => async (dispatch) => {
+  try {
+    const response = await axios.get(`/api/backlog/${backlogId}`);
+    dispatch({
+      type: GET_BACKLOG,
+      payload: response.data
+    });
+  } catch (error) {}
+};
