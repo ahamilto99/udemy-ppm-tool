@@ -3,7 +3,6 @@ package com.alexhamilton.udemy.ppmtoolbackend.domain;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -39,7 +38,7 @@ public class ProjectTask {
 	private LocalDate dueDate;
 
 	@JsonIgnore
-	@ManyToOne(cascade = CascadeType.REFRESH)
+	@ManyToOne
 	@JoinColumn(name = "backlog_id", updatable = false, nullable = false)
 	private Backlog backlog;
 
