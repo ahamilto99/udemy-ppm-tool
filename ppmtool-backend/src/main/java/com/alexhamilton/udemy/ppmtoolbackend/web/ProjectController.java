@@ -49,7 +49,7 @@ public class ProjectController {
 		return new ResponseEntity<Project>(project, HttpStatus.OK);
 	}
 
-	@GetMapping
+	@GetMapping("/all")
 	public ResponseEntity<?> getAllProjects() {
 		Iterable<Project> projects = projectService.findAllProjects();
 

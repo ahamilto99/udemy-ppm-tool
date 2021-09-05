@@ -1,11 +1,13 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { getBacklog } from '../../actions/backlogActions';
-import Backlog from './Backlog';
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import Backlog from "./Backlog";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { getBacklog } from "../../actions/backlogActions";
 
-export class ProjectBoard extends Component {
+class ProjectBoard extends Component {
+  //constructor to handle errors
+
   componentDidMount() {
     const { id } = this.props.match.params;
     this.props.getBacklog(id);
@@ -13,16 +15,15 @@ export class ProjectBoard extends Component {
 
   render() {
     const { id } = this.props.match.params;
-    const { projectTasks } = this.props.backlog;
-
+    const { project_tasks } = this.props.backlog;
     return (
-      <div className='container'>
-        <Link to={`/addProjectTask/${id}`} className='btn btn-primary mb-3'>
-          <i className='fas fa-plus-circle'> Create Project Task</i>
+      <div className="container">
+        <Link to={`/addProjectTask/${id}`} className="btn btn-primary mb-3">
+          <i className="fas fa-plus-circle"> Create Project Task</i>
         </Link>
         <br />
         <hr />
-        <Backlog projectTasksProps={projectTasks} />
+        <Backlog project_tasks_prop={project_tasks} />
       </div>
     );
   }
@@ -33,8 +34,11 @@ ProjectBoard.propTypes = {
   getBacklog: PropTypes.func.isRequired
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   backlog: state.backlog
 });
 
-export default connect(mapStateToProps, { getBacklog })(ProjectBoard);
+export default connect(
+  mapStateToProps,
+  { getBacklog }
+)(ProjectBoard);
