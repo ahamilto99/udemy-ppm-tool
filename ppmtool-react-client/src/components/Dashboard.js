@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import CreateProjectButton from './project/CreateProjectButton';
 import ProjectItem from './project/ProjectItem';
 import { connect } from 'react-redux';
-import { getProjects } from '../actions/projectionActions';
+import { getProjects } from '../actions/projectActions';
 import PropTypes from 'prop-types';
 
-class Dashboard extends Component {
+export class Dashboard extends Component {
   componentDidMount() {
     this.props.getProjects();
   }
@@ -24,10 +24,7 @@ class Dashboard extends Component {
               <br />
               <hr />
               {projects.map((project) => (
-                <ProjectItem
-                  key={project.projectIdentifier}
-                  project={project}
-                />
+                <ProjectItem key={project.id} project={project} />
               ))}
             </div>
           </div>

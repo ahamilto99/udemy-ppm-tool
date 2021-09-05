@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { deleteProject } from '../../actions/projectionActions';
+import { deleteProject } from '../../actions/projectActions';
 
 class ProjectItem extends Component {
-  onDeleteClick = (identifier) => this.props.deleteProject(identifier);
+  onDeleteClick = (id) => this.props.deleteProject(id);
 
   render() {
     const { project } = this.props;

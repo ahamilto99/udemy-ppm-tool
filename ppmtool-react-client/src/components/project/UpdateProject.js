@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { getProject, createProject } from '../../actions/projectionActions';
+import { getProject, createProject } from '../../actions/projectActions';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
-import { identifier } from '@babel/types';
 
 class UpdateProject extends Component {
   constructor() {
@@ -48,8 +47,8 @@ class UpdateProject extends Component {
   }
 
   componentDidMount() {
-    const { identifier } = this.props.match.params;
-    this.props.getProject(identifier, this.props.history);
+    const { id } = this.props.match.params;
+    this.props.getProject(id, this.props.history);
   }
 
   onChange(e) {

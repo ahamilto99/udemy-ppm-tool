@@ -5,7 +5,7 @@ import classnames from 'classnames';
 import { addProjectTask } from '../../../actions/backlogActions';
 import PropTypes from 'prop-types';
 
-class AddProjectTask extends Component {
+export class AddProjectTask extends Component {
   constructor(props) {
     super(props);
 

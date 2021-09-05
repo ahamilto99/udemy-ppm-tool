@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import Backlog from './Backlog';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getBacklog } from '../../actions/backlogActions';
+import Backlog from './Backlog';
 
-class ProjectBoard extends Component {
+export class ProjectBoard extends Component {
   componentDidMount() {
     const { id } = this.props.match.params;
     this.props.getBacklog(id);
@@ -13,6 +13,7 @@ class ProjectBoard extends Component {
 
   render() {
     const { id } = this.props.match.params;
+    const { projectTasks } = this.props.backlog;
 
     return (
       <div className='container'>
@@ -21,7 +22,7 @@ class ProjectBoard extends Component {
         </Link>
         <br />
         <hr />
-        <Backlog />
+        <Backlog projectTasksProps={projectTasks} />
       </div>
     );
   }

@@ -25,9 +25,9 @@ export const getProjects = () => async (dispatch) => {
   });
 };
 
-export const getProject = (identifier, history) => async (dispatch) => {
+export const getProject = (id, history) => async (dispatch) => {
   try {
-    const result = await axios.get(`/api/project/${identifier}`);
+    const result = await axios.get(`/api/project/${id}`);
     dispatch({
       type: GET_PROJECT,
       payload: result.data
@@ -37,16 +37,16 @@ export const getProject = (identifier, history) => async (dispatch) => {
   }
 };
 
-export const deleteProject = (identifier) => async (dispatch) => {
+export const deleteProject = (id) => async (dispatch) => {
   if (
     window.confirm(
       'Are you sure you want to delete this project and all its data?'
     )
   ) {
-    await axios.delete(`/api/project/${identifier}`);
+    await axios.delete(`/api/project/${id}`);
     dispatch({
       type: DELETE_PROJECT,
-      payload: identifier
+      payload: id
     });
   }
 };
