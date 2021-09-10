@@ -9,7 +9,7 @@ class ProjectBoard extends Component {
   //constructor to handle errors
   constructor() {
     super();
-    this.setState = {
+    this.state = {
       errors: {}
     };
   }
