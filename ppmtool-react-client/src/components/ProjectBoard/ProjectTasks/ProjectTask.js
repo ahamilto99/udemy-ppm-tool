@@ -8,7 +8,6 @@ class ProjectTask extends Component {
   onDeleteClick(backlog_id, pt_id) {
     this.props.deleteProjectTask(backlog_id, pt_id);
   }
-
   render() {
     const { project_task } = this.props;
     let priorityString;
@@ -65,5 +64,4 @@ class ProjectTask extends Component {
 ProjectTask.propTypes = {
   deleteProjectTask: PropTypes.func.isRequired
 };
-
 export default connect(null, { deleteProjectTask })(ProjectTask);
