@@ -29,8 +29,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.headers().frameOptions().sameOrigin()	// for H2 console
 			.and()
 				.authorizeRequests()
-					.antMatchers("/", "/favicon.ico", "/**/*.css", "/**/*.js", "/**/*.gif", "/**/*.svg", "/**/*.html", "/**/*.jpg", "/**/*.png")
-							.permitAll()
+					.antMatchers("/", "/favicon.ico", "/**/*.css", "/**/*.js", "/**/*.gif", "/**/*.svg", "/**/*.html", "/**/*.jpg", "/**/*.png",
+							"/api/users/**")
+									.permitAll()
 			.anyRequest()
 				.authenticated();
 	} // @formatter:on
