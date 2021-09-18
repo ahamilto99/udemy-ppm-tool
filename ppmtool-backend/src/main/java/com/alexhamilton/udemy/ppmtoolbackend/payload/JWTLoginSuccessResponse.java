@@ -3,7 +3,7 @@ package com.alexhamilton.udemy.ppmtoolbackend.payload;
 public class JWTLoginSuccessResponse {
 
 	private boolean success;
-	
+
 	private String token;
 
 	public JWTLoginSuccessResponse(boolean success, String token) {
@@ -37,5 +37,5 @@ public class JWTLoginSuccessResponse {
 		builder.append("]");
 		return builder.toString();
 	}
-	
+
 }
