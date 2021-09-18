@@ -7,9 +7,11 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.alexhamilton.udemy.ppmtoolbackend.domain.Backlog;
 import com.alexhamilton.udemy.ppmtoolbackend.domain.Project;
+import com.alexhamilton.udemy.ppmtoolbackend.domain.User;
 import com.alexhamilton.udemy.ppmtoolbackend.exceptions.DuplicateProjectIdentifierException;
 import com.alexhamilton.udemy.ppmtoolbackend.repositories.BacklogRepository;
 import com.alexhamilton.udemy.ppmtoolbackend.repositories.ProjectRepository;
+import com.alexhamilton.udemy.ppmtoolbackend.repositories.UserRepository;
 
 @Service
 public class ProjectService {
@@ -19,11 +21,18 @@ public class ProjectService {
 
 	@Autowired
 	private BacklogRepository backlogRepo;
+	
+	@Autowired
+	private UserRepository userRepo;
 
-	public Project saveOrUpdateProject(Project project) {
+	public Project saveOrUpdateProject(Project project, String username) {
 		String upperProjectIdentifier = project.getProjectIdentifier().toUpperCase();
 
 		try {
+			User user = userRepo.findUserByUsername(username);
+
+			project.setUser(user);
+			project.setProjectLead(username);
 			project.setProjectIdentifier(upperProjectIdentifier);
 
 			if (project.getId() == null) {

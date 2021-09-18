@@ -1,5 +1,7 @@
 package com.alexhamilton.udemy.ppmtoolbackend.web;
 
+import java.security.Principal;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,14 +33,14 @@ public class ProjectController {
 	private MapValidationErrorService mapValidationErrorService;
 
 	@PostMapping
-	public ResponseEntity<?> createNewProject(@Valid @RequestBody Project project, BindingResult bindingResult) {
+	public ResponseEntity<?> createNewProject(@Valid @RequestBody Project project, BindingResult bindingResult, Principal principal) {
 		ResponseEntity<?> errMap = mapValidationErrorService.mapValidationErrors(bindingResult);
 
 		if (errMap != null) {
 			return errMap;
 		}
 
-		Project newProject = projectService.saveOrUpdateProject(project);
+		Project newProject = projectService.saveOrUpdateProject(project, principal.getName());
 		return new ResponseEntity<Project>(newProject, HttpStatus.OK);
 	}
 

@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
@@ -52,6 +53,12 @@ public class Project {
 	@JsonIgnore
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "project")
 	private Backlog backlog;
+	
+	@JsonIgnore
+	@ManyToOne
+	private User user;
+	
+	private String projectLead;
 
 	public Project() {
 	}
@@ -126,6 +133,22 @@ public class Project {
 
 	public void setBacklog(Backlog backlog) {
 		this.backlog = backlog;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public String getProjectLead() {
+		return projectLead;
+	}
+
+	public void setProjectLead(String projectLead) {
+		this.projectLead = projectLead;
 	}
 
 	@PrePersist
