@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.alexhamilton.udemy.ppmtoolbackend.services.CustomUserDetailsService;
 
@@ -29,11 +30,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+	@Bean
+	public JwtAuthenticationFilter jwtAuthenticationFilter() {
+		return new JwtAuthenticationFilter();
+	}
+
 	@Override
 	protected void configure(AuthenticationManagerBuilder authManagerBuilder) throws Exception {
 		authManagerBuilder.userDetailsService(customUserDetailsService).passwordEncoder(bCryptPasswordEncoder);
 	}
-	
+
 	@Override
 	@Bean(BeanIds.AUTHENTICATION_MANAGER)
 	protected AuthenticationManager authenticationManager() throws Exception {
@@ -58,6 +64,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 						.permitAll()
 			.anyRequest()
 				.authenticated();
+		
+		http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 	} // @formatter:on
 
 }
