@@ -9,6 +9,7 @@ import com.alexhamilton.udemy.ppmtoolbackend.domain.Backlog;
 import com.alexhamilton.udemy.ppmtoolbackend.domain.Project;
 import com.alexhamilton.udemy.ppmtoolbackend.domain.User;
 import com.alexhamilton.udemy.ppmtoolbackend.exceptions.DuplicateProjectIdentifierException;
+import com.alexhamilton.udemy.ppmtoolbackend.exceptions.ProjectNotFoundException;
 import com.alexhamilton.udemy.ppmtoolbackend.repositories.BacklogRepository;
 import com.alexhamilton.udemy.ppmtoolbackend.repositories.ProjectRepository;
 import com.alexhamilton.udemy.ppmtoolbackend.repositories.UserRepository;
@@ -53,26 +54,30 @@ public class ProjectService {
 
 	}
 
-	public Project findProjectByProjectIdentifier(String projectIdentifier) {
+	public Project findProjectByProjectIdentifier(String projectIdentifier, String username) {
 		String upperProjectIdentifier = projectIdentifier.toUpperCase();
 
-		return projectRepo.findByProjectIdentifier(upperProjectIdentifier)
+		Project project =  projectRepo.findByProjectIdentifier(upperProjectIdentifier)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
 						"Project Identifier '" + upperProjectIdentifier + "' does not exist"));
+		
+		System.out.println();
+		System.out.println(username);
+		System.out.println();
+		
+		if (!project.getProjectLead().equals(username)) {
+			throw new ProjectNotFoundException("Project not found in your account");
+		}
+		
+		return project;
 	}
 
-	public Iterable<Project> findAllProjects() {
-		return projectRepo.findAll();
+	public Iterable<Project> findAllProjects(String username) {
+		return projectRepo.findByProjectLead(username);
 	}
 
-	public void deleteProjectByProjectIdentifier(String projectIdentifier) {
-		String upperProjectIdentifier = projectIdentifier.toUpperCase();
-
-		Project project = projectRepo.findByProjectIdentifier(upperProjectIdentifier)
-				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-						"Cannot delete Project with Project Identifier '" + upperProjectIdentifier
-								+ "' because Project does not exist"));
-		projectRepo.delete(project);
+	public void deleteProjectByProjectIdentifier(String projectIdentifier, String username) {
+		projectRepo.delete(findProjectByProjectIdentifier(projectIdentifier, username));
 	}
 
 }
