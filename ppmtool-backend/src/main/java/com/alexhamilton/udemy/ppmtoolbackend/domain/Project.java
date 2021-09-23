@@ -58,7 +58,7 @@ public class Project {
 	@ManyToOne
 	private User user;
 	
-	private String projectLead;
+	private String projectLeader;
 
 	public Project() {
 	}
@@ -143,12 +143,12 @@ public class Project {
 		this.user = user;
 	}
 
-	public String getProjectLead() {
-		return projectLead;
+	public String getProjectLeader() {
+		return projectLeader;
 	}
 
-	public void setProjectLead(String projectLead) {
-		this.projectLead = projectLead;
+	public void setProjectLeader(String projectLeader) {
+		this.projectLeader = projectLeader;
 	}
 
 	@PrePersist

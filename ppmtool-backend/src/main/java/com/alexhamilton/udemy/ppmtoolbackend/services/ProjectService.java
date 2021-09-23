@@ -22,18 +22,29 @@ public class ProjectService {
 
 	@Autowired
 	private BacklogRepository backlogRepo;
-	
+
 	@Autowired
 	private UserRepository userRepo;
 
 	public Project saveOrUpdateProject(Project project, String username) {
 		String upperProjectIdentifier = project.getProjectIdentifier().toUpperCase();
 
+		if (project.getId() != null) {
+			Project existingProject = projectRepo.findByProjectIdentifier(project.getProjectIdentifier()).get();
+
+			if (existingProject != null && (!existingProject.getProjectLeader().equals(username))) {
+				throw new ProjectNotFoundException("Project not found in your account");
+			} else if (existingProject == null) {
+				throw new ProjectNotFoundException("Project with ID: '" + project.getProjectIdentifier()
+						+ "' cannot be updated because it doesn't exist");
+			}
+		}
+
 		try {
 			User user = userRepo.findUserByUsername(username);
 
 			project.setUser(user);
-			project.setProjectLead(username);
+			project.setProjectLeader(username);
 			project.setProjectIdentifier(upperProjectIdentifier);
 
 			if (project.getId() == null) {
@@ -57,23 +68,23 @@ public class ProjectService {
 	public Project findProjectByProjectIdentifier(String projectIdentifier, String username) {
 		String upperProjectIdentifier = projectIdentifier.toUpperCase();
 
-		Project project =  projectRepo.findByProjectIdentifier(upperProjectIdentifier)
+		Project project = projectRepo.findByProjectIdentifier(upperProjectIdentifier)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
 						"Project Identifier '" + upperProjectIdentifier + "' does not exist"));
-		
+
 		System.out.println();
 		System.out.println(username);
 		System.out.println();
-		
-		if (!project.getProjectLead().equals(username)) {
+
+		if (!project.getProjectLeader().equals(username)) {
 			throw new ProjectNotFoundException("Project not found in your account");
 		}
-		
+
 		return project;
 	}
 
 	public Iterable<Project> findAllProjects(String username) {
-		return projectRepo.findByProjectLead(username);
+		return projectRepo.findByProjectLeader(username);
 	}
 
 	public void deleteProjectByProjectIdentifier(String projectIdentifier, String username) {

@@ -12,6 +12,6 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
 
 	Optional<Project> findByProjectIdentifier(String projectIdentifier);
 	
-	Iterable<Project> findByProjectLead(String username);
+	Iterable<Project> findByProjectLeader(String username);
 	
 }
