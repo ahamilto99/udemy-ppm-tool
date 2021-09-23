@@ -54,8 +54,9 @@ public class BacklogController {
 
 	@GetMapping("/{backlog-id}/{project-task-id}")
 	public ResponseEntity<?> getProjectTask(@PathVariable("backlog-id") String backlogId,
-			@PathVariable("project-task-id") String projectTaskId) {
-		ProjectTask projectTask = projectTaskService.findProjectTaskByProjectSequence(backlogId, projectTaskId);
+			@PathVariable("project-task-id") String projectTaskId, Principal principal) {
+		ProjectTask projectTask = projectTaskService.findProjectTaskByProjectSequence(backlogId, projectTaskId,
+				principal.getName());
 
 		return new ResponseEntity<ProjectTask>(projectTask, HttpStatus.OK);
 	}
@@ -63,22 +64,22 @@ public class BacklogController {
 	@PatchMapping("/{backlog-id}/{project-task-id}")
 	public ResponseEntity<?> updateProjectTask(@PathVariable("backlog-id") String backlogId,
 			@PathVariable("project-task-id") String projectTaskId, @RequestBody @Valid ProjectTask updatedProjectTask,
-			BindingResult bindingResult) {
+			BindingResult bindingResult, Principal principal) {
 		ResponseEntity<?> errMap = mapValidationErrorService.mapValidationErrors(bindingResult);
 		if (errMap != null) {
 			return errMap;
 		}
 
 		ProjectTask updatedTask = projectTaskService.updateByProjectSequence(updatedProjectTask, backlogId,
-				projectTaskId);
+				projectTaskId, principal.getName());
 
 		return new ResponseEntity<ProjectTask>(updatedTask, HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{backlog-id}/{project-task-id}")
 	public ResponseEntity<?> deleteProjectTask(@PathVariable("backlog-id") String backlogId,
-			@PathVariable("project-task-id") String projectTaskIdentifier) {
-		projectTaskService.deleteProjectTaskByProjectSequence(backlogId, projectTaskIdentifier);
+			@PathVariable("project-task-id") String projectTaskIdentifier, Principal principal) {
+		projectTaskService.deleteProjectTaskByProjectSequence(backlogId, projectTaskIdentifier, principal.getName());
 
 		return new ResponseEntity<String>("Project Task '" + projectTaskIdentifier + "' was successfully deleted",
 				HttpStatus.OK);

@@ -60,7 +60,7 @@ public class ProjectTaskService {
 		return projectTaskRepo.findByProjectIdentifierOrderByPriority(backlogId);
 	}
 
-	public ProjectTask findProjectTaskByProjectSequence(String backlogId, String projectTaskIdentifier) {
+	public ProjectTask findProjectTaskByProjectSequence(String backlogId, String projectTaskIdentifier, String username) {
 		Backlog backlog = backlogRepo.findByProjectIdentifier(backlogId);
 
 		if (backlog == null) {
@@ -82,16 +82,16 @@ public class ProjectTaskService {
 	}
 
 	public ProjectTask updateByProjectSequence(ProjectTask updatedTask, String backlogId,
-			String projectTaskIdentifier) {
-		ProjectTask projectTask = findProjectTaskByProjectSequence(backlogId, projectTaskIdentifier);
+			String projectTaskIdentifier, String username) {
+		ProjectTask projectTask = findProjectTaskByProjectSequence(backlogId, projectTaskIdentifier, username);
 
 		projectTask = updatedTask;
 
 		return projectTaskRepo.save(projectTask);
 	}
 
-	public void deleteProjectTaskByProjectSequence(String backlogId, String projectTaskIdentifier) {
-		ProjectTask projectTask = findProjectTaskByProjectSequence(backlogId, projectTaskIdentifier);
+	public void deleteProjectTaskByProjectSequence(String backlogId, String projectTaskIdentifier, String username) {
+		ProjectTask projectTask = findProjectTaskByProjectSequence(backlogId, projectTaskIdentifier, username);
 
 		projectTaskRepo.delete(projectTask);
 	}
