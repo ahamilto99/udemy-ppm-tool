@@ -1,5 +1,6 @@
 package com.alexhamilton.udemy.ppmtoolbackend.web;
 
+import java.security.Principal;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -35,20 +36,20 @@ public class BacklogController {
 
 	@PostMapping("/{backlog-id}")
 	public ResponseEntity<?> addProjectTaskToBacklog(@PathVariable("backlog-id") String backlogId,
-			@Valid @RequestBody ProjectTask projectTask, BindingResult bindingResult) {
+			@Valid @RequestBody ProjectTask projectTask, BindingResult bindingResult, Principal principal) {
 		ResponseEntity<?> errMap = mapValidationErrorService.mapValidationErrors(bindingResult);
 		if (errMap != null) {
 			return errMap;
 		}
 
-		ProjectTask newProjectTask = projectTaskService.addProjectTask(backlogId, projectTask);
+		ProjectTask newProjectTask = projectTaskService.addProjectTask(backlogId, projectTask, principal.getName());
 
 		return new ResponseEntity<ProjectTask>(newProjectTask, HttpStatus.OK);
 	}
 
 	@GetMapping("/{backlog-id}")
-	public List<ProjectTask> getProjectBacklog(@PathVariable("backlog-id") String backlogId) {
-		return projectTaskService.findBacklogById(backlogId);
+	public List<ProjectTask> getProjectBacklog(@PathVariable("backlog-id") String backlogId, Principal principal) {
+		return projectTaskService.findBacklogById(backlogId, principal.getName());
 	}
 
 	@GetMapping("/{backlog-id}/{project-task-id}")
