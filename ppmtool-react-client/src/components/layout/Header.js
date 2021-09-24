@@ -9,46 +9,26 @@ class Header extends Component {
     this.props.logout();
     window.location.href = '/';
   }
-
   render() {
     const { validToken, user } = this.props.security;
 
-    const userIsNotAuthenticatied = (
-      <div className='collapse navbar-collapse' id='mobile-nav'>
-        <ul className='navbar-nav mr-auto'>
-          <li className='nav-item'>
-            <Link className='nav-link' to='/register'>
-              Sign Up
-            </Link>
-          </li>
-        </ul>
-
-        <ul className='navbar-nav ml-auto'>
-          <li className='nav-item'>
-            <Link className='nav-link' to='/login'>
-              Login
-            </Link>
-          </li>
-          <li className='nav-item'>
-            <Link className='nav-link' to='/register'>
-              Sign Up
-            </Link>
-          </li>
-        </ul>
-      </div>
-    );
-
-    const userIsAuthenticatied = (
+    const userIsAuthenticated = (
       <div className='collapse navbar-collapse' id='mobile-nav'>
         <ul className='navbar-nav mr-auto'>
           <li className='nav-item'>
             <Link className='nav-link' to='/dashboard'>
-              <i className='fas fa-user-circle mr-1'> {user.fullName}</i>
+              Dashboard
             </Link>
           </li>
         </ul>
 
         <ul className='navbar-nav ml-auto'>
+          <li className='nav-item'>
+            <Link className='nav-link' to='/dashboard'>
+              <i className='fas fa-user-circle mr-1' />
+              {user.fullName}
+            </Link>
+          </li>
           <li className='nav-item'>
             <Link
               className='nav-link'
@@ -56,6 +36,18 @@ class Header extends Component {
               onClick={this.logout.bind(this)}
             >
               Logout
+            </Link>
+          </li>
+        </ul>
+      </div>
+    );
+
+    const userIsNotAuthenticated = (
+      <div className='collapse navbar-collapse' id='mobile-nav'>
+        <ul className='navbar-nav ml-auto'>
+          <li className='nav-item'>
+            <Link className='nav-link' to='/register'>
+              Sign Up
             </Link>
           </li>
           <li className='nav-item'>
@@ -70,9 +62,9 @@ class Header extends Component {
     let headerLinks;
 
     if (validToken && user) {
-      headerLinks = userIsAuthenticatied;
+      headerLinks = userIsAuthenticated;
     } else {
-      headerLinks = userIsNotAuthenticatied;
+      headerLinks = userIsNotAuthenticated;
     }
 
     return (
