@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import Backlog from "./Backlog";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import { getBacklog } from "../../actions/backlogActions";
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import Backlog from './Backlog';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { getBacklog } from '../../actions/backlogActions';
 
 class ProjectBoard extends Component {
   //constructor to handle errors
@@ -36,13 +36,17 @@ class ProjectBoard extends Component {
       if (project_tasks.length < 1) {
         if (errors.projectNotFound) {
           return (
-            <div className="alert alert-danger text-center" role="alert">
+            <div className='alert alert-danger text-center' role='alert'>
               {errors.projectNotFound}
             </div>
           );
+        } else if (errors.projectIdentifier) {
+          <div className='alert alert-danger text-center' role='alert'>
+            {errors.projectIdentifier}
+          </div>;
         } else {
           return (
-            <div className="alert alert-info text-center" role="alert">
+            <div className='alert alert-info text-center' role='alert'>
               No Project Tasks on this board
             </div>
           );
@@ -55,9 +59,9 @@ class ProjectBoard extends Component {
     BoardContent = boardAlgorithm(errors, project_tasks);
 
     return (
-      <div className="container">
-        <Link to={`/addProjectTask/${id}`} className="btn btn-primary mb-3">
-          <i className="fas fa-plus-circle"> Create Project Task</i>
+      <div className='container'>
+        <Link to={`/addProjectTask/${id}`} className='btn btn-primary mb-3'>
+          <i className='fas fa-plus-circle'> Create Project Task</i>
         </Link>
         <br />
         <hr />
@@ -73,12 +77,9 @@ ProjectBoard.propTypes = {
   errors: PropTypes.object.isRequired
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   backlog: state.backlog,
   errors: state.errors
 });
 
-export default connect(
-  mapStateToProps,
-  { getBacklog }
-)(ProjectBoard);
+export default connect(mapStateToProps, { getBacklog })(ProjectBoard);
